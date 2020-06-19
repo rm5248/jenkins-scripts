@@ -1,57 +1,24 @@
-def call( String arch, String distro ){
+def call( String arch, String distro, String repoHook = "" ){
 	node {
-			stage('Clean'){
-					cleanWs()
+		stage('Clean'){
+				cleanWs()
+		}
+		stage('Checkout'){
+				fileOperations([folderCreateOperation('source')])
+				dir('source'){
+					checkout scm
+				}
+		}
+		stage("Build-${arch}-${distro}"){
+			if( repoHook.length() > 0 ){
+				configFileProvider([configFile(fileId: ${repoHook}, targetLocation: 'hookdir/D21-repo-hook')]){
+					buildDebPkg_fn( arch, distro )
+				}
+			}else{
+				buildDebPkg_fn( arch, distro )
 			}
-			stage('Checkout'){
-					fileOperations([folderCreateOperation('source')])
-					dir('source'){
-						checkout scm
-					}
-			}
-			stage("Build-${arch}-${distro}"){
-					if( distro == "jessie" ){
-					}else if( distro == "stretch" ){
-					}else if( distro == "buster" ){
-						//configFileProvider([configFile(fileId: '42dd2363-51ed-4972-a382-f25ddbe11b3a', targetLocation: 'hookdir/D21-nightly-buster')]){
-							buildDebPkg_fn( arch, distro )
-						//}
-					}
-			} //stage
+		} //stage
 	}
-/*
-	pipeline {
-		agent { label 'master' }
-
-		stages {
-			stage('Clean'){
-				steps{
-					cleanWs()
-				}
-			}
-			stage('Checkout'){
-				steps{
-					fileOperations([folderCreateOperation('source')])
-					dir('source'){
-						checkout scm
-					}
-				}
-			}
-			stage("Build-${arch}-${distro}"){
-				steps{
-					if( distro == "jessie" ){
-					}else if( distro == "stretch" ){
-					}else if( distro == "buster" ){
-						configFileProvider([configFile(fileId: '42dd2363-51ed-4972-a382-f25ddbe11b3a', targetLocation: 'hookdir/D21-nightly-buster')]){
-							buildDebPkg_fn( ARCH, DISTRO )
-						}
-					}
-				}
-			} //stage
-
-		} //stages
-	} //pipeline
-*/
 }
 
 void buildDebPkg_fn(String arch, String distro){
@@ -60,9 +27,7 @@ void buildDebPkg_fn(String arch, String distro){
 			components: '', 
 			distribution: distro, 
 			keyring: '', 
-			mirrorSite: 'https://deb.debian.net/debian', 
+			mirrorSite: 'http://deb.debian.org/debian', 
 			pristineTarName: ''
 }
 
-void foo_fn(String str){
-}
