@@ -1,4 +1,25 @@
 def call( String distro, String arch ){
+	node {
+			stage('Clean'){
+					cleanWs()
+			}
+			stage('Checkout'){
+					fileOperations([folderCreateOperation('source')])
+					dir('source'){
+						checkout scm
+					}
+			}
+			stage("Build-${arch}-${distro}"){
+					if( distro == "jessie" ){
+					}else if( distro == "stretch" ){
+					}else if( distro == "buster" ){
+						configFileProvider([configFile(fileId: '42dd2363-51ed-4972-a382-f25ddbe11b3a', targetLocation: 'hookdir/D21-nightly-buster')]){
+							buildDebPkg_fn( ARCH, DISTRO )
+						}
+					}
+			} //stage
+	}
+/*
 	pipeline {
 		agent { label 'master' }
 
@@ -30,6 +51,7 @@ def call( String distro, String arch ){
 
 		} //stages
 	} //pipeline
+*/
 }
 
 void buildDebPkg_fn(String arch, String distro){
@@ -40,4 +62,7 @@ void buildDebPkg_fn(String arch, String distro){
 			keyring: '', 
 			mirrorSite: 'https://deb.debian.net/debian', 
 			pristineTarName: ''
+}
+
+void foo_fn(String str){
 }
