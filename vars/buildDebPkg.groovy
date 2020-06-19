@@ -1,4 +1,4 @@
-def call( String distro, String arch ){
+def call( String arch, String distro ){
 	node {
 			stage('Clean'){
 					cleanWs()
@@ -14,7 +14,7 @@ def call( String distro, String arch ){
 					}else if( distro == "stretch" ){
 					}else if( distro == "buster" ){
 						configFileProvider([configFile(fileId: '42dd2363-51ed-4972-a382-f25ddbe11b3a', targetLocation: 'hookdir/D21-nightly-buster')]){
-							buildDebPkg_fn( ARCH, DISTRO )
+							buildDebPkg_fn( arch, distro )
 						}
 					}
 			} //stage
