@@ -6,7 +6,8 @@ def call( String arch, String distro, String repoHook = "" ){
 		stage('Checkout'){
 				fileOperations([folderCreateOperation('source')])
 				dir('source'){
-					checkout scm
+					def scmVars = checkout scm
+					env.GIT_COMMIT = scmVars.GIT_COMMIT
 				}
 		}
 		stage("Build-${arch}-${distro}"){
@@ -18,6 +19,12 @@ def call( String arch, String distro, String repoHook = "" ){
 				buildDebPkg_fn( arch, distro )
 			}
 		} //stage
+
+		stage("Add to repo if master"){
+			if( env.BRANCH_NAME == "master" ){
+				aptlyPublish includeSource: true, removeOldPackages: true, repositoryName: "nightly-${distro}"
+			}
+		}
 	}
 }
 
