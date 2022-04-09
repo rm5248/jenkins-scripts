@@ -1,3 +1,5 @@
+def buildingTag = env.TAG_NAME != null
+
 def call( String arch, String distro, String repoHook = "" ){
 	node {
 		stage('Clean'){
@@ -13,28 +15,61 @@ def call( String arch, String distro, String repoHook = "" ){
 		stage("Build-${arch}-${distro}"){
 			if( repoHook.length() > 0 ){
 				configFileProvider([configFile(fileId: "${repoHook}", targetLocation: 'hookdir/D21-repo-hook')]){
-					buildDebPkg_fn( arch, distro )
+					buildDebPkg_fn( arch, distro, buildingTag )
 				}
 			}else{
-				buildDebPkg_fn( arch, distro )
+				buildDebPkg_fn( arch, distro, buildingTag )
 			}
 		} //stage
 
-		stage("Add to repo if master"){
-			if( env.BRANCH_NAME == "master" ){
-				aptlyPublish includeSource: true, removeOldPackages: true, repositoryName: "nightly-${distro}"
+		stage('Upload to nightly repo'){
+			if( env.BRANCH_NAME == 'master' ){
+				rtUpload (
+					serverId: 'rm5248-jfrog',
+					specPath: 'artifactory-spec-debian-pbuilder/debian-pbuilder.spec'
+				)
+
+				rtBuildInfo (
+					// Optional - Maximum builds to keep in Artifactory.
+					maxBuilds: 1,
+					deleteBuildArtifacts: true,
+				)
+
+				rtPublishBuildInfo (
+					serverId: 'rm5248-jfrog'
+				)
+
+			}
+		}
+
+		stage('Upload to release repo'){
+			if( env.TAG_NAME != null ){
+				rtUpload (
+					serverId: 'rm5248-jfrog',
+					specPath: 'artifactory-spec-debian-pbuilder/debian-pbuilder.spec'
+				)
+
+				rtBuildInfo (
+				)
+
+				rtPublishBuildInfo (
+					serverId: 'rm5248-jfrog'
+				)
+
 			}
 		}
 	}
 }
 
-void buildDebPkg_fn(String arch, String distro){
+void buildDebPkg_fn(String arch, String distro, boolean isTag){
 	debianPbuilder additionalBuildResults: '', 
 			architecture: arch, 
 			components: '', 
 			distribution: distro, 
 			keyring: '', 
 			mirrorSite: 'http://deb.debian.org/debian', 
-			pristineTarName: ''
+			pristineTarName: '',
+			buildAsTag: isTag,
+			generateArtifactorySpecFile: true,
+			artifactoryRepoName: isTag ? 'test-repo-debian-release' : 'test-repo-debian-local'
 }
-
