@@ -1,6 +1,5 @@
-def buildingTag = env.TAG_NAME != null
-
 def call( String arch, String distro, String repoHook = "" ){
+	def buildingTag = env.TAG_NAME != null
 	node {
 		stage('Clean'){
 				cleanWs()
