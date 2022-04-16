@@ -147,6 +147,9 @@ dZ/7qM2wCa7cqWIdVKdjPUhoFWlLRa2HlbHtj9yILJBojVcpFqrJkVNsWVGjygy5
 		f.append "apt-get -y install gnupg2\n"
 		f.append "echo \"${key}\" > /tmp/key\n"
 		f.append "apt-key add /tmp/key\n"
+		f.append "echo %%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
+		f.append "cat /tmp/key\n"
+		f.append "echo %%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
 	}
 	f.append "apt-get update\n"
 }
