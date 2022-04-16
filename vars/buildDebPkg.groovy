@@ -145,7 +145,8 @@ dZ/7qM2wCa7cqWIdVKdjPUhoFWlLRa2HlbHtj9yILJBojVcpFqrJkVNsWVGjygy5
 	}
 	if( distro == 'buster' ){
 		f.append "apt-get -y install gnupg2\n"
-		f.append "echo \"${key}\" | apt-key add -\n"
+		f.append "echo \"${key}\" > /tmp/key\n"
+		f.append "apt-key add /tmp/key\n"
 	}
 	f.append "apt-get update\n"
 }
