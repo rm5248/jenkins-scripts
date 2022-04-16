@@ -77,6 +77,8 @@ void buildDebPkg_fn(String arch, String distro, boolean isTag){
 }
 
 void writeAptRepo(String distro, boolean isTag){
+	File dir = new File("hookdir");
+	dir.mkdirs();
 	File f = new File("hookdir/D21-repos");
 	String key = 
 """-----BEGIN PGP PUBLIC KEY BLOCK-----
