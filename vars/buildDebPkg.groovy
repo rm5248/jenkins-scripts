@@ -38,7 +38,8 @@ def call( String arch, String distro, String repoHook = "" ){
 				)
 
 				rtPublishBuildInfo (
-					serverId: 'rm5248-jfrog'
+					serverId: 'rm5248-jfrog',
+					buildName: "${JOB_NAME}-${arch}-${distro}",
 				)
 
 			}
