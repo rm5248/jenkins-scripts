@@ -3,7 +3,6 @@ def call( String arch, String distro, String repoHook = "" ){
 	node {
 		stage('Clean'){
 				cleanWs()
-				sh 'printenv'
 		}
 		stage('Checkout'){
 				fileOperations([folderCreateOperation('source')])
