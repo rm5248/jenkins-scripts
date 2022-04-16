@@ -1,7 +1,12 @@
 def call(){
-	buildDebPkg( "amd64", "bullseye" )
-	if( env.BRANCH_NAME == 'master' ){
-		buildDebPkg( "armhf", "bullseye" )
-		buildDebPkg( "i386", "bullseye" )
+	def distributions = [ "buster", "bullseye" ]
+
+	for(dist in distributions){
+		buildDebPkg( "amd64", "${dist}" )
+		if( env.BRANCH_NAME == 'master' ){
+			buildDebPkg( "arm64", "${dist}" )
+			buildDebPkg( "armhf", "${dist}" )
+			buildDebPkg( "i386", "${dist}" )
+		}
 	}
 }
