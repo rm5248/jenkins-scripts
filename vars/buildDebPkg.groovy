@@ -80,6 +80,7 @@ void writeAptRepo(String distro, boolean isTag){
 	File dir = new File("hookdir");
 	dir.mkdirs();
 	File f = new File("hookdir/D21-repos");
+	f.write "";
 	String key = 
 """-----BEGIN PGP PUBLIC KEY BLOCK-----
 mQINBF9VH1cBEADDaCUGvAPNpd1n/8eIq6cI6ifayLgTUmdD93E8kDpPQfiQHsBt
@@ -134,11 +135,11 @@ dZ/7qM2wCa7cqWIdVKdjPUhoFWlLRa2HlbHtj9yILJBojVcpFqrJkVNsWVGjygy5
 =A5qz
 -----END PGP PUBLIC KEY BLOCK-----"""
 
-	f.write "echo \"${key}\" > /etc/apt/trusted.gpg.d/rm5248.asc\n"
+	f.append "echo \"${key}\" > /etc/apt/trusted.gpg.d/rm5248.asc\n"
 	if( !isTag ){
-		f.write "echo \"deb https://rm5248.jfrog.io/artifactory/test-repo-debian-local ${distro} main\" > /etc/apt/sources.list.d/rm5248.list\n"
+		f.append "echo \"deb https://rm5248.jfrog.io/artifactory/test-repo-debian-local ${distro} main\" > /etc/apt/sources.list.d/rm5248.list\n"
 	}else{
-		f.write "echo \"deb https://rm5248.jfrog.io/artifactory/test-repo-debian-release ${distro} main\" > /etc/apt/sources.list.d/rm5248.list\n"
+		f.append "echo \"deb https://rm5248.jfrog.io/artifactory/test-repo-debian-release ${distro} main\" > /etc/apt/sources.list.d/rm5248.list\n"
 	}
-	f.write "apt-get update"
+	f.append "apt-get update"
 }
