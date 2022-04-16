@@ -143,5 +143,8 @@ dZ/7qM2wCa7cqWIdVKdjPUhoFWlLRa2HlbHtj9yILJBojVcpFqrJkVNsWVGjygy5
 	}else{
 		f.append "echo \"deb https://rm5248.jfrog.io/artifactory/test-repo-debian-release ${distro} main\" > /etc/apt/sources.list.d/rm5248.list\n"
 	}
+	if( distro == 'buster' ){
+		f.append "echo \"${key}\" | apt-key add -\n"
+	}
 	f.append "apt-get update\n"
 }
