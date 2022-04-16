@@ -27,7 +27,8 @@ def call( String arch, String distro, String repoHook = "" ){
 			if( env.BRANCH_NAME == 'master' ){
 				rtUpload (
 					serverId: 'rm5248-jfrog',
-					specPath: 'artifactory-spec-debian-pbuilder/debian-pbuilder.spec'
+					specPath: 'artifactory-spec-debian-pbuilder/debian-pbuilder.spec',
+					buildName: "${JOB_NAME}-${arch}-${distro}",
 				)
 
 				rtBuildInfo (
