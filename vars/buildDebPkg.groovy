@@ -74,7 +74,7 @@ void buildDebPkg_fn(String arch, String distro, boolean isTag){
 			pristineTarName: '',
 			buildAsTag: isTag,
 			generateArtifactorySpecFile: true,
-			artifactoryRepoName: isTag ? 'test-repo-debian-release' : 'test-repo-debian-local',
+			artifactoryRepoName: isTag ? 'rm5248-release' : 'rm5248-nightly',
 			extraPackages: 'ca-certificates'
 }
 
@@ -144,15 +144,5 @@ dZ/7qM2wCa7cqWIdVKdjPUhoFWlLRa2HlbHtj9yILJBojVcpFqrJkVNsWVGjygy5
 	}else{
 		f.append "echo \"deb https://rm5248.jfrog.io/artifactory/test-repo-debian-release ${distro} main\" > /etc/apt/sources.list.d/rm5248.list\n"
 	}
-/*
-	if( distro == 'buster' ){
-		f.append "apt-get -y install gnupg2\n"
-		f.append "echo \"${key}\" > /tmp/key\n"
-		f.append "apt-key add /tmp/key\n"
-		f.append "echo %%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
-		f.append "cat /tmp/key\n"
-		f.append "echo %%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n"
-	}
-*/
 	f.append "apt-get update\n"
 }
