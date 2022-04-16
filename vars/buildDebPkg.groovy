@@ -85,6 +85,7 @@ void writeAptRepo(String distro, boolean isTag){
 	f.write "";
 	String key = 
 """-----BEGIN PGP PUBLIC KEY BLOCK-----
+
 mQINBF9VH1cBEADDaCUGvAPNpd1n/8eIq6cI6ifayLgTUmdD93E8kDpPQfiQHsBt
 kJIQqy/f/+tjrKigoN5t+kGkj9XbZpSTcMM39Ys2GG1pQvIqd2eqUfqWTvySdaMk
 UYoO/swAckxNmvlEybQQfKQAsidGOyrx4qhkQtk5yKgyzuyJFN1B55/VqCirXw6h
