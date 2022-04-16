@@ -74,7 +74,8 @@ void buildDebPkg_fn(String arch, String distro, boolean isTag){
 			pristineTarName: '',
 			buildAsTag: isTag,
 			generateArtifactorySpecFile: true,
-			artifactoryRepoName: isTag ? 'test-repo-debian-release' : 'test-repo-debian-local'
+			artifactoryRepoName: isTag ? 'test-repo-debian-release' : 'test-repo-debian-local',
+			extraPackages: 'ca-certificates'
 }
 
 void writeAptRepo(String distro, boolean isTag){
