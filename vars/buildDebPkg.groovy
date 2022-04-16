@@ -143,4 +143,5 @@ dZ/7qM2wCa7cqWIdVKdjPUhoFWlLRa2HlbHtj9yILJBojVcpFqrJkVNsWVGjygy5
 		f.append "echo \"deb https://rm5248.jfrog.io/artifactory/test-repo-debian-release ${distro} main\" > /etc/apt/sources.list.d/rm5248.list\n"
 	}
 	f.append "apt-get update"
+	error('stopping for testing bro')
 }
