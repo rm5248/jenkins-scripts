@@ -32,6 +32,7 @@ def call( String arch, String distro, String repoHook = "" ){
 					// Optional - Maximum builds to keep in Artifactory.
 					maxBuilds: 1,
 					deleteBuildArtifacts: true,
+					buildName: "${JOB_NAME}-${arch}-${distro}",
 				)
 
 				rtPublishBuildInfo (
