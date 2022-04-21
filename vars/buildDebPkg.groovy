@@ -75,7 +75,8 @@ void buildDebPkg_fn(String arch, String distro, boolean isTag){
 			buildAsTag: isTag,
 			generateArtifactorySpecFile: true,
 			artifactoryRepoName: isTag ? 'rm5248-release' : 'rm5248-nightly',
-			extraPackages: 'ca-certificates'
+			extraPackages: 'ca-certificates',
+			pbuilderType: 'PBuilder'
 }
 
 void writeAptRepo(String distro, boolean isTag){
