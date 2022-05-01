@@ -142,7 +142,7 @@ dZ/7qM2wCa7cqWIdVKdjPUhoFWlLRa2HlbHtj9yILJBojVcpFqrJkVNsWVGjygy5
 	f.append "echo \"${key}\" > /etc/apt/trusted.gpg.d/rm5248.asc\n"
 	if( !isTag ){
 		f.append "echo \"deb https://rm5248.jfrog.io/artifactory/rm5248-nightly ${distro} main\" > /etc/apt/sources.list.d/rm5248.list\n"
-		//f.append "echo \"deb https://rm5248.jfrog.io/artifactory/nvmr-nightly ${distro} main\" > /etc/apt/sources.list.d/nvmr.list\n"
+		f.append "echo \"deb https://rm5248.jfrog.io/artifactory/nvmr-nightly ${distro} main\" > /etc/apt/sources.list.d/nvmr.list\n"
 	}else{
 		f.append "echo \"deb https://rm5248.jfrog.io/artifactory/rm5248-release ${distro} main\" > /etc/apt/sources.list.d/rm5248.list\n"
 		//f.append "echo \"deb https://rm5248.jfrog.io/artifactory/nvmr-release ${distro} main\" > /etc/apt/sources.list.d/nvmr.list\n"
