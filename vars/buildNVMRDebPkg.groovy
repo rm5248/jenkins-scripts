@@ -76,7 +76,7 @@ void buildDebPkg_fn(String arch, String distro, boolean isTag){
 			buildAsTag: isTag,
 			generateArtifactorySpecFile: true,
 			artifactoryRepoName: isTag ? 'nvmr-release' : 'nvmr-nightly',
-			extraPackages: 'ca-certificates',
+			extraPackages: 'ca-certificates debian-backports-keyring',
 			pbuilderType: 'PBuilder'
 }
 
