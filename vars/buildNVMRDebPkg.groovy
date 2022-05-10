@@ -161,4 +161,5 @@ void addBackports(String distro){
 	f.append "echo \"Package: cmake\" >> /etc/apt/preferences.d/99debian-backports\n"
         f.append "echo \"Pin: release a=buster-backports\" >> /etc/apt/preferences.d/99debian-backports\n"
         f.append "echo \"Pin-Priority: 900\" > /etc/apt/preferences.d/99debian-backports\n"
+	f.append "echo \"\" > /etc/apt/preferences.d/99debian-backports\n"
 }
