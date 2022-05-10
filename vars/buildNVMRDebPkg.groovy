@@ -149,7 +149,7 @@ dZ/7qM2wCa7cqWIdVKdjPUhoFWlLRa2HlbHtj9yILJBojVcpFqrJkVNsWVGjygy5
 		//f.append "echo \"deb https://rm5248.jfrog.io/artifactory/nvmr-release ${distro} main\" > /etc/apt/sources.list.d/nvmr.list\n"
 	}
 	f.append "apt-get update\n"
-	f.append "apt-cache policy cmake\n"
+	f.append "apt-cache policy cmake:arm64\n"
 	f.append "echo try cat\n"
 	f.append "cat /etc/apt/preferences.d/99debian-backports\n"
 	f.append "echo done cat\n"
