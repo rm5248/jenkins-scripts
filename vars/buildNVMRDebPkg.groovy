@@ -13,6 +13,7 @@ def call( String arch, String distro, String repoHook = "" ){
 		}
 		stage("Build-${arch}-${distro}"){
 			writeAptRepo(distro, buildingTag)
+			addBackports(distro)
 			if( repoHook.length() > 0 ){
 				configFileProvider([configFile(fileId: "${repoHook}", targetLocation: 'hookdir/D21-repo-hook')]){
 					buildDebPkg_fn( arch, distro, buildingTag )
@@ -148,4 +149,13 @@ dZ/7qM2wCa7cqWIdVKdjPUhoFWlLRa2HlbHtj9yILJBojVcpFqrJkVNsWVGjygy5
 		//f.append "echo \"deb https://rm5248.jfrog.io/artifactory/nvmr-release ${distro} main\" > /etc/apt/sources.list.d/nvmr.list\n"
 	}
 	f.append "apt-get update\n"
+}
+
+void addBackports(String distro){
+	if( distro != "buster" ){
+		return;
+	}
+	File f = new File("${WORKSPACE}/hookdir/D20-backports");
+	f.write "";
+	f.append "echo \"deb http://deb.debian.org/debian buster-backports ${distro} main\" > /etc/apt/sources.list.d/buster-backports.list\n"
 }
