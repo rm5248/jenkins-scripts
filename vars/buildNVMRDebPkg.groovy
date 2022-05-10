@@ -150,6 +150,7 @@ dZ/7qM2wCa7cqWIdVKdjPUhoFWlLRa2HlbHtj9yILJBojVcpFqrJkVNsWVGjygy5
 	}
 	f.append "apt-get update\n"
 	f.append "apt-cache policy cmake\n"
+	f.append "cat /etc/apt/preferences.d/99debian-backports\n"
 }
 
 void addBackports(String distro){
