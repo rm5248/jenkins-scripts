@@ -158,4 +158,7 @@ void addBackports(String distro){
 	File f = new File("${WORKSPACE}/hookdir/D20-backports");
 	f.write "";
 	f.append "echo \"deb http://deb.debian.org/debian buster-backports ${distro} main\" > /etc/apt/sources.list.d/buster-backports.list\n"
+	f.append "echo \"Package: cmake\" >> /etc/apt/preferences.d/99debian-backports\n"
+        f.append "echo \"Pin: release a=buster-backports\" >> /etc/apt/preferences.d/99debian-backports\n"
+        f.append "echo \"Pin-Priority: 900\" > /etc/apt/preferences.d/99debian-backports\n"
 }
