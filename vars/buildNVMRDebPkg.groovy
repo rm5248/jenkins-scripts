@@ -149,6 +149,7 @@ dZ/7qM2wCa7cqWIdVKdjPUhoFWlLRa2HlbHtj9yILJBojVcpFqrJkVNsWVGjygy5
 		//f.append "echo \"deb https://rm5248.jfrog.io/artifactory/nvmr-release ${distro} main\" > /etc/apt/sources.list.d/nvmr.list\n"
 	}
 	f.append "apt-get update\n"
+	f.append "apt-cache policy cmake\n"
 }
 
 void addBackports(String distro){
