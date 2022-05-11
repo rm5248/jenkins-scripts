@@ -155,7 +155,7 @@ dZ/7qM2wCa7cqWIdVKdjPUhoFWlLRa2HlbHtj9yILJBojVcpFqrJkVNsWVGjygy5
 	f.append "echo done cat\n"
 	
 	// install cmake from backports since apt is not wanting to install it
-	f.append "apt-get install cmake\n"
+	//f.append "apt-get install cmake\n"
 }
 
 void addBackports(String distro){
@@ -167,6 +167,10 @@ void addBackports(String distro){
 	f.append "echo \"deb http://deb.debian.org/debian buster-backports main\" > /etc/apt/sources.list.d/buster-backports.list\n"
 	f.append "echo \"deb-src http://deb.debian.org/debian buster-backports main\" >> /etc/apt/sources.list.d/buster-backports.list\n"
 	f.append "echo \"Package: cmake:*\" > /etc/apt/preferences.d/99debian-backports\n"
+        f.append "echo \"Pin: release a=buster-backports\" >> /etc/apt/preferences.d/99debian-backports\n"
+        f.append "echo \"Pin-Priority: 900\" >> /etc/apt/preferences.d/99debian-backports\n"
+	f.append "echo \"\" >> /etc/apt/preferences.d/99debian-backports\n"
+	f.append "echo \"Package: cmake-data:*\" >> /etc/apt/preferences.d/99debian-backports\n"
         f.append "echo \"Pin: release a=buster-backports\" >> /etc/apt/preferences.d/99debian-backports\n"
         f.append "echo \"Pin-Priority: 900\" >> /etc/apt/preferences.d/99debian-backports\n"
 	f.append "echo \"\" >> /etc/apt/preferences.d/99debian-backports\n"
