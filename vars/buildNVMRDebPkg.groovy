@@ -153,6 +153,9 @@ dZ/7qM2wCa7cqWIdVKdjPUhoFWlLRa2HlbHtj9yILJBojVcpFqrJkVNsWVGjygy5
 	f.append "echo try cat\n"
 	f.append "cat /etc/apt/preferences.d/99debian-backports\n"
 	f.append "echo done cat\n"
+	
+	// install cmake from backports since apt is not wanting to install it
+	f.append "apt-get install cmake\n"
 }
 
 void addBackports(String distro){
