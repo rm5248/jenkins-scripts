@@ -12,7 +12,6 @@ def call( String arch, String distro, String repoHook = "" ){
 				}
 		}
 		stage("Build-${arch}-${distro}"){
-			writeAptRepo(distro, buildingTag)
 			if( repoHook.length() > 0 ){
 				configFileProvider([configFile(fileId: "${repoHook}", targetLocation: 'hookdir/D21-repo-hook')]){
 					buildDebPkg_fn( arch, distro, buildingTag )
