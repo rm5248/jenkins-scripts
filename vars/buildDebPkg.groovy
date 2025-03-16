@@ -21,46 +21,6 @@ def call( String arch, String distro, String repoHook = "" ){
 				buildDebPkg_fn( arch, distro, buildingTag )
 			}
 		} //stage
-
-		stage('Upload to nightly repo'){
-			if( env.BRANCH_NAME == 'master' ){
-				rtUpload (
-					serverId: 'rm5248-jfrog',
-					specPath: 'artifactory-spec-debian-pbuilder/debian-pbuilder.spec',
-					buildName: "${JOB_NAME}-${arch}-${distro}",
-				)
-
-				rtBuildInfo (
-					// Optional - Maximum builds to keep in Artifactory.
-					maxBuilds: 1,
-					deleteBuildArtifacts: true,
-					buildName: "${JOB_NAME}-${arch}-${distro}",
-				)
-
-				rtPublishBuildInfo (
-					serverId: 'rm5248-jfrog',
-					buildName: "${JOB_NAME}-${arch}-${distro}",
-				)
-
-			}
-		}
-
-		stage('Upload to release repo'){
-			if( env.TAG_NAME != null ){
-				rtUpload (
-					serverId: 'rm5248-jfrog',
-					specPath: 'artifactory-spec-debian-pbuilder/debian-pbuilder.spec'
-				)
-
-				rtBuildInfo (
-				)
-
-				rtPublishBuildInfo (
-					serverId: 'rm5248-jfrog'
-				)
-
-			}
-		}
 	}
 }
 
@@ -74,7 +34,6 @@ void buildDebPkg_fn(String arch, String distro, boolean isTag){
 			pristineTarName: '',
 			buildAsTag: isTag,
 			generateArtifactorySpecFile: true,
-			artifactoryRepoName: isTag ? 'rm5248-release' : 'rm5248-nightly',
 			extraPackages: 'ca-certificates',
 			pbuilderType: 'PBuilder'
 }

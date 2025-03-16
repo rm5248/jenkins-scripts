@@ -1,5 +1,5 @@
 def call(){
-	def distributions = [ "buster", "bullseye" ]
+	def distributions = [ "bullseye", "bookworm" ]
 
 	for(dist in distributions){
 		buildDebPkg( "amd64", "${dist}" )
