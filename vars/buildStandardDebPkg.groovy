@@ -1,12 +1,11 @@
 def call(){
-	def distributions = [ "bullseye", "bookworm" ]
+	def cfg = aptlyConfig()
 
-	for(dist in distributions){
-		buildDebPkg( "amd64", "${dist}" )
-		if( env.BRANCH_NAME == 'master' ){
-			buildDebPkg( "arm64", "${dist}" )
-			buildDebPkg( "armhf", "${dist}" )
-			buildDebPkg( "i386", "${dist}" )
+	for(dist in cfg.distributions){
+		for(arch in cfg.architectures){
+			buildDebPkg( "${arch}", "${dist}" )
 		}
 	}
+
+	publishDebPkg( cfg.distributions, cfg.architectures )
 }
