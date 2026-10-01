@@ -20,6 +20,8 @@
 
 set -euo pipefail
 
+APTLY_GPG_KEY="F49C33C8D9C76BAB5161C8C12C9A7D870227B75F"
+
 aptly_cmd() {
 	aptly ${APTLY_CONFIG:+-config="$APTLY_CONFIG"} "$@"
 }
