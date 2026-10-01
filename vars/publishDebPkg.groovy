@@ -28,7 +28,7 @@ def call( List distributions, List architectures ){
 					"APTLY_KEEP_LATEST_ONLY=${cfg.channel == 'master'}",
 					"APTLY_DISTRIBUTIONS=${distributions.join(' ')}",
 					"APTLY_ARCHITECTURES=${architectures.join(',')}",
-					"APTLY_UPLOAD_DIR=aptly-upload",
+					"APTLY_BINARIES_DIR=binaries",
 					"APTLY_CONFIG=${cfg.aptlyConfig}",
 					"APTLY_PUBLIC_DIR=${aptlyConfig.publicDir(cfg)}",
 					"APTLY_GPG_KEY=${cfg.gpgKey}",

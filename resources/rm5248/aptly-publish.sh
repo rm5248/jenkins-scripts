@@ -11,8 +11,8 @@
 #                          being added
 #   APTLY_DISTRIBUTIONS    space-separated list of distributions
 #   APTLY_ARCHITECTURES    comma-separated list of architectures to publish
-#   APTLY_UPLOAD_DIR       directory containing a subdirectory per distribution
-#                          with the packages to add
+#   APTLY_BINARIES_DIR     directory containing the packages to add, laid out
+#                          as <dir>/<distro>/<arch>
 #   APTLY_CONFIG           optional aptly config file
 #   APTLY_PUBLIC_DIR       aptly public directory(<rootDir>/public)
 #   APTLY_GPG_KEY          key to sign with, or 'none' to not sign
@@ -55,7 +55,7 @@ exec 9> "$HOME/.aptly-publish.lock"
 flock 9
 
 for dist in $APTLY_DISTRIBUTIONS; do
-	pkg_dir="$APTLY_UPLOAD_DIR/$dist"
+	pkg_dir="$APTLY_BINARIES_DIR/$dist"
 	if [ ! -d "$pkg_dir" ]; then
 		echo "No packages for $dist"
 		continue
@@ -70,7 +70,7 @@ for dist in $APTLY_DISTRIBUTIONS; do
 			seen[$base]=1
 			files+=("$f")
 		fi
-	done < <(find "$pkg_dir" -type f \( -name '*.deb' -o -name '*.udeb' -o -name '*.dsc' \) -print0 | sort -z)
+	done < <(find "$pkg_dir" -mindepth 2 -maxdepth 2 -type f \( -name '*.deb' -o -name '*.udeb' -o -name '*.dsc' \) -print0 | sort -z)
 	unset seen
 	if [ "${#files[@]}" -eq 0 ]; then
 		echo "No packages for $dist"

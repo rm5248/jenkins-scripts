@@ -35,7 +35,8 @@ void buildDebPkg_fn(String arch, String distro, boolean isTag, String repoDir){
 			extraPackages: 'ca-certificates',
 			pbuilderType: 'PBuilder',
 			binariesDir: 'binaries',
-			bindMounts: repoDir
+			bindMounts: repoDir,
+			binariesSeparateDirs: true
 }
 
 /*
@@ -69,18 +70,15 @@ String localAptRepo(Map cfg, String distro){
 }
 
 /*
- * Collect the built packages so that they can be published to the apt repo
- * by publishDebPkg.
+ * Stash the built packages so that they can be published to the apt repo
+ * by publishDebPkg.  The plugin puts them in binaries/<distro>/<arch>.
  */
 void stashDebPkg(String arch, String distro){
-	String dest = "aptly-upload/${distro}/${arch}"
-	sh """
-		mkdir -p '${dest}'
-		find binaries -maxdepth 1 -type f \\( \\
-			-name '*.deb' -o -name '*.udeb' -o -name '*.dsc' -o \\
-			-name '*.tar.*' -o -name '*.diff.gz' \\) \\
-			-exec cp -t '${dest}' {} +
-		ls -l '${dest}'
-	"""
-	stash name: "aptly-${distro}-${arch}", includes: "aptly-upload/**", allowEmpty: true
+	String dir = "binaries/${distro}/${arch}"
+	def patterns = []
+	for( pattern in [ '*.deb', '*.udeb', '*.dsc', '*.tar.*', '*.diff.gz' ] ){
+		patterns.add( "${dir}/${pattern}" )
+	}
+	String includes = patterns.join(',')
+	stash name: "aptly-${distro}-${arch}", includes: includes, allowEmpty: true
 }
