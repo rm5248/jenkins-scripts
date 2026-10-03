@@ -16,11 +16,11 @@
 #   APTLY_CONFIG           optional aptly config file
 #   APTLY_PUBLIC_DIR       aptly public directory(<rootDir>/public)
 #   APTLY_GPG_KEY          key to sign with, or 'none' to not sign
+#   APTLY_GPG_PASSPHRASE_FILE
+#                          optional file containing the passphrase for the key
 #   APT_REPO_RSYNC_DEST    optional rsync destination for the public directory
 
 set -euo pipefail
-
-APTLY_GPG_KEY="F49C33C8D9C76BAB5161C8C12C9A7D870227B75F"
 
 aptly_cmd() {
 	aptly ${APTLY_CONFIG:+-config="$APTLY_CONFIG"} "$@"
@@ -33,6 +33,9 @@ if [ "$APTLY_GPG_KEY" = none ]; then
 	publish_args+=(-skip-signing)
 else
 	publish_args+=(-gpg-key="$APTLY_GPG_KEY" -batch)
+	if [ -n "${APTLY_GPG_PASSPHRASE_FILE:-}" ]; then
+		publish_args+=(-passphrase-file="$APTLY_GPG_PASSPHRASE_FILE")
+	fi
 fi
 
 # Names of the source packages that the given files were built from

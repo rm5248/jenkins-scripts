@@ -36,8 +36,9 @@ of the public directory.
 Requires debian-pbuilder plugin 1.13 or later(`bindMounts`, `binariesDir`, `binariesSeparateFolders`).
 
 Packages are built on the node that holds the apt repos. On that node,
-install `aptly`, `gnupg` and `rsync`. Then import the signing key into the Jenkins user's keyring,
-without a passphrase or with one cached by gpg-agent. Repos and publishes
+install `aptly`, `gnupg` and `rsync`. Then import the signing key into the Jenkins user's keyring.
+If the key has a passphrase, store it in a *Secret file* credential and set
+`APTLY_GPG_PASSPHRASE_CREDENTIAL` to its ID. Repos and publishes
 are created automatically the first time they are needed.
 
 Set these as global environment variables in Jenkins (Manage Jenkins ->
@@ -50,5 +51,6 @@ System -> Global properties) as needed:
 | `APTLY_CONFIG`        | `~/.aptly.conf`           | aptly config file |
 | `APTLY_PUBLIC_DIR`    | `<aptly rootDir>/public`  | Directory that aptly publishes to |
 | `APTLY_GPG_KEY`       | rm5248 auto-build key     | Key to sign with, or `none` for an unsigned repo |
+| `APTLY_GPG_PASSPHRASE_CREDENTIAL` | rm5248 auto-build key passphrase | ID of a *Secret file* credential holding the key's passphrase, or `none` if the key has no passphrase |
 | `DEB_DISTRIBUTIONS`   | `trixie bookworm`         | Distributions to build for |
 | `DEB_ARCHITECTURES`   | `amd64 arm64 armhf i386`  | Architectures to build for |

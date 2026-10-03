@@ -34,7 +34,13 @@ def call( List distributions, List architectures ){
 					"APTLY_GPG_KEY=${cfg.gpgKey}",
 					"APT_REPO_RSYNC_DEST=${cfg.rsyncDest}",
 				]){
-					sh 'bash aptly-publish.sh'
+					if( cfg.gpgKey == 'none' || cfg.gpgPassphraseCredential == 'none' ){
+						sh 'bash aptly-publish.sh'
+					}else{
+						withCredentials([file(credentialsId: cfg.gpgPassphraseCredential, variable: 'APTLY_GPG_PASSPHRASE_FILE')]){
+							sh 'bash aptly-publish.sh'
+						}
+					}
 				}
 			}
 		}

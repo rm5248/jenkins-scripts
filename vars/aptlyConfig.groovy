@@ -30,6 +30,9 @@ def call(){
 	// GPG key used to sign the published repositories.  Set to 'none' to
 	// publish unsigned repositories.
 	cfg.gpgKey = env.APTLY_GPG_KEY ?: 'F49C33C8D9C76BAB5161C8C12C9A7D870227B75F'
+	// ID of a Jenkins 'Secret file' credential holding the passphrase for
+	// the GPG key.  Set to 'none' if the key has no passphrase.
+	cfg.gpgPassphraseCredential = env.APTLY_GPG_PASSPHRASE_CREDENTIAL ?: 'b2f9f030-e1cf-405d-8aac-d15fe0efcdc1'
 	// Optional rsync destination for the public directory, e.g.
 	// user@www.example.com:/var/www/apt/
 	cfg.rsyncDest = env.APT_REPO_RSYNC_DEST ?: ''
