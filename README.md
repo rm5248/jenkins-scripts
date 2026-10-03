@@ -37,7 +37,8 @@ Requires debian-pbuilder plugin 1.13 or later(`bindMounts`, `binariesDir`, `bina
 
 Packages are built on the node that holds the apt repos. On that node,
 install `aptly`, `gnupg` and `rsync`. Then import the signing key into the Jenkins user's keyring.
-If the key has a passphrase, store it in a *Secret file* credential and set
+If the key has a passphrase, store it in a *Username with password* credential
+(username is the key ID, password is the passphrase) and set
 `APTLY_GPG_PASSPHRASE_CREDENTIAL` to its ID. Repos and publishes
 are created automatically the first time they are needed.
 
@@ -50,7 +51,7 @@ System -> Global properties) as needed:
 | `APTLY_NODE`          | any node                  | Label of the node that holds the aptly database, where packages are built and published. Set this if there is more than one build node |
 | `APTLY_CONFIG`        | `~/.aptly.conf`           | aptly config file |
 | `APTLY_PUBLIC_DIR`    | `<aptly rootDir>/public`  | Directory that aptly publishes to |
-| `APTLY_GPG_KEY`       | rm5248 auto-build key     | Key to sign with, or `none` for an unsigned repo |
-| `APTLY_GPG_PASSPHRASE_CREDENTIAL` | rm5248 auto-build key passphrase | ID of a *Secret file* credential holding the key's passphrase, or `none` if the key has no passphrase |
+| `APTLY_GPG_KEY`       | rm5248 auto-build key     | Key to sign with, or `none` for an unsigned repo. Only used when `APTLY_GPG_PASSPHRASE_CREDENTIAL` is `none` |
+| `APTLY_GPG_PASSPHRASE_CREDENTIAL` | rm5248 auto-build key | ID of a *Username with password* credential: key ID and passphrase. `none` if the key has no passphrase |
 | `DEB_DISTRIBUTIONS`   | `trixie bookworm`         | Distributions to build for |
 | `DEB_ARCHITECTURES`   | `amd64 arm64 armhf i386`  | Architectures to build for |

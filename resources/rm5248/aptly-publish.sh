@@ -16,8 +16,7 @@
 #   APTLY_CONFIG           optional aptly config file
 #   APTLY_PUBLIC_DIR       aptly public directory(<rootDir>/public)
 #   APTLY_GPG_KEY          key to sign with, or 'none' to not sign
-#   APTLY_GPG_PASSPHRASE_FILE
-#                          optional file containing the passphrase for the key
+#   APTLY_GPG_PASSPHRASE   optional passphrase for the key
 #   APT_REPO_RSYNC_DEST    optional rsync destination for the public directory
 
 set -euo pipefail
@@ -33,8 +32,13 @@ if [ "$APTLY_GPG_KEY" = none ]; then
 	publish_args+=(-skip-signing)
 else
 	publish_args+=(-gpg-key="$APTLY_GPG_KEY" -batch)
-	if [ -n "${APTLY_GPG_PASSPHRASE_FILE:-}" ]; then
-		publish_args+=(-passphrase-file="$APTLY_GPG_PASSPHRASE_FILE")
+	if [ -n "${APTLY_GPG_PASSPHRASE:-}" ]; then
+		# Give aptly the passphrase in a file so that it doesn't show up
+		# on the command line
+		passphrase_file=$(umask 077 && mktemp)
+		trap 'rm -f "$passphrase_file"' EXIT
+		printf '%s\n' "$APTLY_GPG_PASSPHRASE" > "$passphrase_file"
+		publish_args+=(-passphrase-file="$passphrase_file")
 	fi
 fi
 

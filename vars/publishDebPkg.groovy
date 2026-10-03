@@ -37,7 +37,9 @@ def call( List distributions, List architectures ){
 					if( cfg.gpgKey == 'none' || cfg.gpgPassphraseCredential == 'none' ){
 						sh 'bash aptly-publish.sh'
 					}else{
-						withCredentials([file(credentialsId: cfg.gpgPassphraseCredential, variable: 'APTLY_GPG_PASSPHRASE_FILE')]){
+						// The credential's username is the key ID
+						withCredentials([usernamePassword(credentialsId: cfg.gpgPassphraseCredential,
+								usernameVariable: 'APTLY_GPG_KEY', passwordVariable: 'APTLY_GPG_PASSPHRASE')]){
 							sh 'bash aptly-publish.sh'
 						}
 					}
