@@ -33,7 +33,7 @@ of the public directory.
 
 ## Setup
 
-Requires debian-pbuilder plugin 1.11 or later(`bindMounts`, `binariesDir`).
+Requires debian-pbuilder plugin 1.13 or later(`bindMounts`, `binariesDir`, `binariesSeparateFolders`).
 
 Packages are built on the node that holds the apt repos. On that node,
 install `aptly`, `gnupg` and `rsync`. Then import the signing key into the Jenkins user's keyring,

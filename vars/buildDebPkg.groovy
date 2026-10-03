@@ -36,7 +36,7 @@ void buildDebPkg_fn(String arch, String distro, boolean isTag, String repoDir){
 			pbuilderType: 'PBuilder',
 			binariesDir: 'binaries',
 			bindMounts: repoDir,
-			binariesSeparateDirs: true
+			binariesSeparateFolders: true
 }
 
 /*
